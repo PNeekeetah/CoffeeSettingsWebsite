@@ -6,7 +6,7 @@ export function setupCombobox(combo, input) {
 
     const reload = () => 
         api.listCoffees().then((data) => {
-            cofees = data.map((c) => c.name);
+            coffees = data.map((c) => c.name);
         });
     reload();
 

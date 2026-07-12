@@ -37,7 +37,7 @@ export function renderCoffee(root) {
       return;
     }
 
-    await api.createCoffee({ name: name.value.trim(), roast: roast.value });
+    await api.createCoffee({ name: name.value.trim(), roast_level: roast.value });
 
     submit.classList.remove('btn--error');
     name.value = '';

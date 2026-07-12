@@ -1,6 +1,6 @@
-const API_BASE = '';
+const API_BASE = window.location.origin;
 
-const url = (path) => '${API_BASE}/${path}'.replace(/([^:])\/\//g, '$1/');
+const url = (path) => `${API_BASE}/${path}`.replace(/([^:])\/\//g, '$1/');
 
 async function request(method, path, body) {
     const opts = {method, headers: {}};
@@ -8,6 +8,9 @@ async function request(method, path, body) {
         opts.headers['Content-Type'] = 'application/json';
         opts.body = JSON.stringify(body);
     }
+    console.log(url(path));
+    console.log(opts);
+    
     const res = await fetch(url(path), opts);
     if (!res.ok) throw new Error(`${method} ${path} -> ${res.status}`);
     return res.status === 204 ? null : res.json();
@@ -25,7 +28,7 @@ export const api = {
 
     async createCoffee(coffee) {
         try {
-            return await request('POST', 'coffee');
+            return await request('POST', 'coffee', coffee);
         } catch (err) {
             console.error(err);
             return [];
