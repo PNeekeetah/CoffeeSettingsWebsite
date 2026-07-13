@@ -22,9 +22,9 @@ export function renderHistory(root) {
     let extractions = [];
 
     const draw = () => {
-        const query = filter.value.trim ().toLowerCase();
+        const query = filter.value.trim().toLowerCase();
         const rows = extractions
-            .filter((e) => !query || e.coffee.toLowerCase().includes(query))
+            .filter((e) => matchesQuery(e.coffee, query))
             .slice(0, MAX_RESULTS);
         listEl.innerHTML = rows.map(rowHtml).join('') || emptyHtml();
     };
@@ -41,14 +41,20 @@ export function renderHistory(root) {
             .join('');
         
         suggestions.hidden = coffees.length === 0;
-    }
+    };
+
+    suggestions.addEventListener('click', (event) => {
+        const item = event.target.closest('.combo__item');
+        if (!item) return;
+
+        filter.value = item.textContent.trim();
+        suggestions.hidden = true;
+        draw();
+    });
 
     filter.addEventListener('focus', showSuggestions);
     filter.addEventListener('input', () => {
-        const item = e.target.closest('.combo__item');
-        if (!item) return;
-        filter.value = item.textContent;
-        suggestions.hidden = true;
+        showSuggestions();
         draw();
     });
 
@@ -59,6 +65,11 @@ export function renderHistory(root) {
     };
 
     return {onShow : load};
+}
+
+function matchesQuery(value, query) {
+    if (!query) return true;
+    return value.toLowerCase() === query;
 }
 
 function rowHtml(e) {
