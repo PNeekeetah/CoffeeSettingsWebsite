@@ -23,7 +23,7 @@ class ExtractionStore:
     def list_extractions(self):
         extractions : List[Extraction] = []
         with self.session_local() as session:
-            for extraction in session.query(Extraction).all():
+            for extraction in session.query(Extraction).order_by(Extraction.created_at.desc()).all():
                 extractions.append(extraction)
         
         return extractions

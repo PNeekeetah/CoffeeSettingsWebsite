@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, Float
+from sqlalchemy import Integer, String, Float, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 from ..db import Base
 
@@ -11,4 +11,5 @@ class Extraction(Base):
     water_temperature_celsius: Mapped[Float] = mapped_column(Float, nullable=False)
     yield_ml: Mapped[Float] = mapped_column(Float, nullable=False)
     extraction_time: Mapped[Float] = mapped_column(Float, nullable=False)
+    created_at: Mapped[DateTime] = mapped_column(DateTime, nullable=True)
     

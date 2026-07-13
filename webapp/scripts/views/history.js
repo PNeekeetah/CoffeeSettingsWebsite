@@ -29,7 +29,7 @@ export function renderHistory(root) {
         listEl.innerHTML = rows.map(rowHtml).join('') || emptyHtml();
     };
 
-    const showSuggestions = () => {
+    const renderSuggestions = () => {
         const query = filter.value.trim().toLowerCase();
         const coffees = [...new Set(extractions.map((e) => e.coffee))]
             .filter((name) => name.toLowerCase().includes(query))
@@ -39,8 +39,17 @@ export function renderHistory(root) {
         suggestions.innerHTML = coffees
             .map((name) => `<li role="option" class="combo__item">${name}</li>`)
             .join('');
-        
+
         suggestions.hidden = coffees.length === 0;
+    };
+
+    const toggleSuggestions = () => {
+        if (suggestions.hidden === false) {
+            suggestions.hidden = true;
+            return;
+        }
+
+        renderSuggestions();
     };
 
     suggestions.addEventListener('click', (event) => {
@@ -52,9 +61,17 @@ export function renderHistory(root) {
         draw();
     });
 
-    filter.addEventListener('focus', showSuggestions);
+    filter.addEventListener('click', (event) => {
+        event.stopPropagation();
+        toggleSuggestions();
+    });
+
+    filter.addEventListener('focus', () => {
+        renderSuggestions();
+    });
+
     filter.addEventListener('input', () => {
-        showSuggestions();
+        renderSuggestions();
         draw();
     });
 
