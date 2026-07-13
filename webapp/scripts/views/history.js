@@ -67,7 +67,7 @@ function rowHtml(e) {
     <li class="history__item" style=border-left-color:${q.color}">
         <span class="history__dot" style="background:${q.color}"></span>
         <span class="history__text">
-            ${e.coffee} - ${e.time}s - Grind ${e.grind} - <strong>${q.label}</strong>
+            ${e.coffee} - ${e.time}s - Grind ${e.grind} - ${e.temperature} C° - <strong>${q.label}</strong>
         </span>
     </li>`;
 }

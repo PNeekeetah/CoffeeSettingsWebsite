@@ -17,6 +17,7 @@ export function renderExtraction(root) {
       <input class="input" id="ex-grind" type="number" step="any" min="0" placeholder="Grinder Size" data-field="grind" />
       <input class="input" id="ex-time" type="number" step="any" min="0" placeholder="Extraction Time (s)" data-field="time" />
       <input class="input" id="ex-qty" type="number" step="any" min="0" placeholder="Extraction Quantity" data-field="quantity" />
+      <input class="input" id="ex-temp" type="number" step="any" min="0" placeholder="Temperature (C)" data-field="temperature" />
       <div class="card__actions">
         <button class="btn btn--ghost" id="ex-from-last" type="button">From Last</button>
         <button class="btn btn--primary" id="ex-submit" type="button">Submit</button>
@@ -33,6 +34,7 @@ export function renderExtraction(root) {
     grind: root.querySelector('#ex-grind'),
     time: root.querySelector('#ex-time'),
     quantity: root.querySelector('#ex-qty'),
+    temperature: root.querySelector('#ex-temp')
   };
 
   const submitBtn = root.querySelector('#ex-submit');
@@ -42,7 +44,7 @@ export function renderExtraction(root) {
   const combo = setupCombobox(root.querySelector('.combo'), fields.coffee);
 
   // Numeric fields must not be negative.
-  const numericFields = [fields.grind, fields.time, fields.quantity];
+  const numericFields = [fields.grind, fields.time, fields.quantity, fields.temperature];
   const isNegative = (el) => Number(el.value) < 0;
 
   // As the user edits: clear the error, but keep it red if the value is negative.
@@ -59,6 +61,7 @@ export function renderExtraction(root) {
     fields.grind.value = last.grind ?? '';
     fields.time.value = last.time ?? '';
     fields.quantity.value = last.quantity ?? '';
+    fields.temperature.value = last.temperature ?? '';
     Object.values(fields).forEach((el) => el.classList.remove('input--error'));
     submitBtn.classList.remove('btn--error');
   });
@@ -79,6 +82,7 @@ export function renderExtraction(root) {
       grind: Number(fields.grind.value),
       time: Number(fields.time.value),
       quantity: Number(fields.quantity.value),
+      temperature: Number(fields.temperature.value),
     };
     await api.createExtraction(payload);
 
