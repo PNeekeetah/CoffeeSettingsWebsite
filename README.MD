@@ -36,3 +36,11 @@ hostAddressLoopback=true
 2. Using the above windows commands, create a rule which allows TCP connections on port 8000.
 
 This might be very useful if we decide that this should be run on another port.
+
+# Useful docker + db command
+
+In the database folder,
+
+```
+docker compose exec -T postgres psql -U user -d database -c 'SELECT * FROM "tExtractions"'
+```
