@@ -31,4 +31,4 @@ class ExtractionController:
         return self.service.add_extraction(extraction)
     
     def last_extraction(self):
-        return self.service.retrieve_extractions()[-1]
+        return self.service.retrieve_extractions()[0]
