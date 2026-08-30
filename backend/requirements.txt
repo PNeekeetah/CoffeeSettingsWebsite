@@ -1,0 +1,11 @@
+# Install with:
+#   cd backend
+#   python3.14 -m venv .venv
+#   . .venv/bin/activate
+#   python -m pip install --upgrade pip
+#   python -m pip install -r requirements.txt
+
+fastapi>=0.115.0
+psycopg[binary]>=3.3.4
+sqlalchemy[psycopg]>=2.0.51
+uvicorn>=0.34.0
