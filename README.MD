@@ -44,3 +44,28 @@ In the database folder,
 ```
 docker compose exec -T postgres psql -U user -d database -c 'SELECT * FROM "tExtractions"'
 ```
+
+# Pydantic version on 3.14 on Android S4 Lineage OS 10
+
+First of all, I will acknowledge that whatever I've done here might not work for another version of Android. I am working with my own constraints, and everybody else will be working with theirs.
+
+In the future though, the gist is largely as follows:
+
+I forked https://github.com/PNeekeetah/android-pydantic-core and I added my own version in the verions matrix ( that repo is really well built ).
+
+Up next, I got the wheel and got some debug information from my python env running on my S4. I got one of the tags from there and I renamed the resulting wheel (which is arm compatible ) with one of the tags supported by pip for my device ( heavens know if it'll work ).
+
+Installing `pydantic-core` from the wheel together with a constraint to point it to 2.48 seemed to do the trick, so who am I to complain :shrugs: . 
+
+TLDR, I added the wheel in this repo together with the contraints. Run it as 
+
+```
+pip install -r requirements.txt -c constraints.txt
+```
+
+I am fucked if any repo decides to update overnight.
+
+--- What I tried before ---
+
+1. Compiling pydantic with rust on my memory constrained device ( took 1 hour for it to OOM )
+2. I also thought about swapping over to Java and just compiling it into a .jar - should be portable! 
