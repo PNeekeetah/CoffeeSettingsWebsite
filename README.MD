@@ -72,3 +72,8 @@ I am fucked if any repo decides to update overnight.
 2. I also thought about swapping over to Java and just compiling it into a .jar - should be portable! 
 
 As it stands, this workaround did the trick. The server just runs on my phone, no need to port forward or anything.
+
+# Database startup on S4
+
+You will need to have postgres installed on the phone. In addition to that, you'll need to run the script.
+
