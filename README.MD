@@ -77,3 +77,6 @@ As it stands, this workaround did the trick. The server just runs on my phone, n
 
 You will need to have postgres installed on the phone. In addition to that, you'll need to run the script.
 
+# Setup
+
+I added a setup script which creates a postgres service and runs the backend on the phone under `services`. That will need to be run on the target device.
