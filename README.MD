@@ -60,6 +60,7 @@ Installing `pydantic-core` from the wheel together with a constraint to point it
 TLDR, I added the wheel in this repo together with the contraints. Run it as 
 
 ```
+pip install pydantic_core-2.46.5-cp314-cp314-android_24_armeabi_v7a
 pip install -r requirements.txt -c constraints.txt
 ```
 
@@ -69,3 +70,5 @@ I am fucked if any repo decides to update overnight.
 
 1. Compiling pydantic with rust on my memory constrained device ( took 1 hour for it to OOM )
 2. I also thought about swapping over to Java and just compiling it into a .jar - should be portable! 
+
+As it stands, this workaround did the trick. The server just runs on my phone, no need to port forward or anything.
