@@ -18,7 +18,8 @@ class ExtractionService:
                 grind=extraction.grinder_setting,
                 time=extraction.extraction_time,
                 quantity=extraction.yield_ml,
-                temperature=extraction.water_temperature_celsius
+                temperature=extraction.water_temperature_celsius,
+                extracted_at=extraction.created_at
             ) for extraction in extraction_database_objects
         ]
  

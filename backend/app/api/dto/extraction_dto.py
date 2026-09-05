@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 class ExtractionDto(BaseModel):
     coffee: str
@@ -6,3 +7,4 @@ class ExtractionDto(BaseModel):
     time: float
     quantity: float
     temperature: float
+    extracted_at : datetime

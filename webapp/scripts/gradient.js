@@ -34,7 +34,7 @@ export function qualityLabel(score) {
     return 'Poor';
 }
 
-export function quality(seconds) {
+export function getQualityIndicator(seconds) {
   const score = qualityScore(seconds);
   return { score, color: qualityColor(score), label: qualityLabel(score) }; 
 }
