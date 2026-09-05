@@ -1,5 +1,5 @@
 import { api } from '../api.js';
-import { quality } from '../gradient.js';
+import { getQualityIndicator } from '../gradient.js';
 import { setupCombobox } from '../combobox.js';
 
 // Input Extraction view: a searchable coffee field + three numeric fields,
@@ -98,9 +98,9 @@ export function renderExtraction(root) {
 }
 
 function showResult(box, seconds) {
-  const q = quality(seconds);
+  const quality_indicator = getQualityIndicator(seconds);
   box.hidden = false;
-  box.style.background = q.color;
-  box.querySelector('.result__label').textContent = q.label;
+  box.style.background = quality_indicator.color;
+  box.querySelector('.result__label').textContent = quality_indicator.label;
   box.querySelector('.result__detail').textContent = `${seconds}s extraction`;
 }
