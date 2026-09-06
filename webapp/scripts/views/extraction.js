@@ -105,7 +105,7 @@ export function renderExtraction(root) {
     // Success: everything back to normal, then show the result.
     submitBtn.classList.remove('btn--error');
     Object.values(fields).forEach((el) => el.classList.remove('input--error'));
-    showResult(resultBox, { ...payload, roast: currentRoast });
+    showResult(resultBox, { ...payload, roast: combo.getGrindLevel(payload.coffee) });
   });
 
   // Refresh the coffee options whenever the tab is shown (a coffee may have
