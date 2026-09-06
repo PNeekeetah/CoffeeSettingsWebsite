@@ -20,12 +20,18 @@ export function renderHistory(root) {
     const listEl = root.querySelector('#hi-list');
     
     let extractions = [];
+    let coffee_and_roast = [];
 
     const draw = () => {
         const query = filter.value.trim().toLowerCase();
         const rows = extractions
             .filter((e) => matchesQuery(e.coffee, query))
             .slice(0, MAX_RESULTS);
+        rows.map((e) => {
+            const coffee = coffee_and_roast.find((c) => c.name === e.coffee);
+            e.roast = coffee ? coffee.roast_level.toLowerCase() : "medium";
+        });
+
         listEl.innerHTML = rows.map(rowHtml).join('') || emptyHtml();
     };
 
@@ -77,7 +83,9 @@ export function renderHistory(root) {
 
     const load = async () => {
         const data = await api.listExtractions();
+        const coffees = await api.listCoffees();
         extractions = Array.isArray(data) ? data : [];
+        coffee_and_roast = Array.isArray(coffees) ? coffees : [];
         draw ();
     };
 
