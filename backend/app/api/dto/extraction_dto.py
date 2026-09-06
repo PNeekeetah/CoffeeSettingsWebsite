@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 class ExtractionDto(BaseModel):
     coffee: str
@@ -7,4 +8,4 @@ class ExtractionDto(BaseModel):
     time: float
     quantity: float
     temperature: float
-    extracted_at : datetime
+    extracted_at : Optional[datetime] = None

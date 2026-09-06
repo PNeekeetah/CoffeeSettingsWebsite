@@ -3,12 +3,19 @@ import {api} from './api.js';
 export function setupCombobox(combo, input) {
     const list = combo.querySelector('.combo__list');
     let coffees = [];
+    let coffee_data = [];
 
     const reload = () => 
         api.listCoffees().then((data) => {
             coffees = data.map((c) => c.name);
+            coffee_data = data;
         });
     reload();
+
+    const getGrindLevel = (coffeeName) => {
+        const coffee = coffee_data.find((c) => c.name === coffeeName);
+        return coffee ? coffee.roast_level.toLowerCase() : "medium";
+    }
 
     const render = (query) => {
         const q = query.toLowerCase();
@@ -32,5 +39,5 @@ export function setupCombobox(combo, input) {
 
     input.addEventListener('blur', () => setTimeout(() => (list.hidden = true), 120));
 
-    return { reload };
+    return { reload, getGrindLevel };
 }

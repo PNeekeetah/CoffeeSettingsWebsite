@@ -1,9 +1,12 @@
 import { api } from '../api.js';
-import { getQualityIndicator } from '../gradient.js';
+import { getQualityIndicator } from '../espresso_quality.js';
+import { chartMarkup, updateChart } from '../extraction_chart.js';
 import { setupCombobox } from '../combobox.js';
 
-// Input Extraction view: a searchable coffee field + three numeric fields,
+// Input Extraction view: a searchable coffee field + four numeric fields,
 // with "From Last" (prefill) and "Submit" (with red validation) buttons.
+// Dose is fixed at 18g and isn't shown as a field. Roast is supplied
+// elsewhere (not collected on this view) — see currentRoast below.
 
 export function renderExtraction(root) {
   root.innerHTML = `
@@ -26,6 +29,14 @@ export function renderExtraction(root) {
     <div class="result" id="ex-result" hidden>
       <span class="result__label"></span>
       <span class="result__detail"></span>
+      <div class="result__panel">
+        ${chartMarkup()}
+        <div class="readout">
+          <div class="readout__row"><span>Ratio</span><strong class="readout__ratio"></strong></div>
+          <div class="readout__row"><span>Est. TDS</span><strong class="readout__tds"></strong></div>
+          <div class="readout__row"><span>Est. Extraction Yield</span><strong class="readout__ey"></strong></div>
+        </div>
+      </div>
     </div>
   `;
 
@@ -42,6 +53,11 @@ export function renderExtraction(root) {
   const resultBox = root.querySelector('#ex-result');
 
   const combo = setupCombobox(root.querySelector('.combo'), fields.coffee);
+
+  // Roast isn't collected on this view. Wire in the real value (e.g. from
+  // the selected coffee's own record) wherever that data lives; this is
+  // just a fallback so the quality model has something to work with.
+  const currentRoast = 'medium';
 
   // Numeric fields must not be negative.
   const numericFields = [fields.grind, fields.time, fields.quantity, fields.temperature];
@@ -89,7 +105,7 @@ export function renderExtraction(root) {
     // Success: everything back to normal, then show the result.
     submitBtn.classList.remove('btn--error');
     Object.values(fields).forEach((el) => el.classList.remove('input--error'));
-    showResult(resultBox, payload.time);
+    showResult(resultBox, { ...payload, roast: combo.getGrindLevel(payload.coffee) });
   });
 
   // Refresh the coffee options whenever the tab is shown (a coffee may have
@@ -97,10 +113,14 @@ export function renderExtraction(root) {
   return { onShow: () => combo.reload() };
 }
 
-function showResult(box, seconds) {
-  const quality_indicator = getQualityIndicator(seconds);
+function showResult(box, payload) {
+  const indicator = getQualityIndicator(payload);
   box.hidden = false;
-  box.style.background = quality_indicator.color;
-  box.querySelector('.result__label').textContent = quality_indicator.label;
-  box.querySelector('.result__detail').textContent = `${seconds}s extraction`;
+  box.style.background = indicator.color;
+  box.querySelector('.result__label').textContent = indicator.label;
+  box.querySelector('.result__detail').textContent = `${payload.time}s extraction`;
+  box.querySelector('.readout__ratio').textContent = `1:${indicator.ratio.toFixed(1)}`;
+  box.querySelector('.readout__tds').textContent = `${indicator.tds.toFixed(2)}%`;
+  box.querySelector('.readout__ey').textContent = `${indicator.ey.toFixed(1)}%`;
+  updateChart(box, indicator.dot, indicator.color);
 }

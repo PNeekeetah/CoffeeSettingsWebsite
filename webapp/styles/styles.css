@@ -247,3 +247,40 @@ body {
   background: var(--gold);
   border-radius: 10px;
 }
+
+/* — Extraction chart & readout ————————————————————————————— */
+/* Append to style.css. Reuses the existing --cream-glass / --shadow /
+   --radius tokens so the chart panel matches the rest of the cards. */
+
+.result__panel {
+  background: var(--cream);
+  margin: 10px -18px -18px -18px;
+  width: calc(100% + 36px);  box-shadow: none;
+  padding: 16px 18px 20px;
+  color: var(--ink);
+  text-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: var(--radius);
+}
+ 
+.chart { display: flex; flex-direction: column; gap: 6px; }
+.chart__title {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--brown-700);
+  text-align: center;
+}
+.chart__svg { width: 100%; height: auto; display: block; }
+ 
+.readout { display: flex; flex-direction: column; }
+.readout__row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 2px;
+  font-weight: 700;
+  border-top: 1px solid rgba(43, 26, 16, 0.08);
+}
+.readout__row:first-child { border-top: none; }
+.readout__row strong { color: var(--brown-700); }
