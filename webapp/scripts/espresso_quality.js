@@ -117,6 +117,14 @@ export function dotPosition(tds, ey) {
   return { x, y };
 }
 
+export function getMinimalQualityIndicator({ quantity, time, grind, temperature, roast }) {
+    const score = qualityScore({ quantity, time, grind, temperature, roast });
+    return {
+        label: qualityLabel(score),
+        color: qualityColor(score)
+    };
+}
+
 // Everything the view needs in one call.
 export function getQualityIndicator({ quantity, time, grind, temperature, roast }) {
   const { tds, ey, ratio } = estimateExtraction({ quantity, time, grind, temperature, roast });

@@ -1,5 +1,5 @@
 import {api} from '../api.js';
-import {getQualityIndicator} from '../gradient.js';
+import {getMinimalQualityIndicator} from '../espresso_quality.js';
 
 const MAX_RESULTS = 100;
 
@@ -90,17 +90,25 @@ function matchesQuery(value, query) {
 }
 
 function rowHtml(e) {
-    const quality_indicator = getQualityIndicator(e.time);
-    const formatted_date = new Date(e.extracted_at).toLocaleString('en-UK', {
+    const quality_label = getMinimalQualityIndicator(
+        { 
+            quantity: e.quantity, 
+            time: e.time, 
+            grind: e.grind, 
+            temperature: e.temperature, 
+            roast: e.roast 
+        });
+    
+        const formatted_date = new Date(e.extracted_at).toLocaleString('en-UK', {
         month: 'short', day: 'numeric', year: 'numeric',
         hour: '2-digit', minute: '2-digit'
     });
     return `
-    <li class="history__item" style="border-left-color:${quality_indicator.color}">
-    <span class="history__dot" style="background:${quality_indicator.color}"></span>
+    <li class="history__item" style="border-left-color:${quality_label.color}">
+    <span class="history__dot" style="background:${quality_label.color}"></span>
     <span class="history__text" style="flex:1;">
         ${e.coffee} <br>
-        ${e.time}s - Grind ${e.grind} - ${e.temperature} C° - ${e.quantity} ml - <strong>${quality_indicator.label}</strong><br>
+        ${e.time}s - Grind ${e.grind} - ${e.temperature} C° - ${e.quantity} ml - <strong>${quality_label.label}</strong><br>
         <span style="display:block; text-align:right; color:#666; font-size:0.85em;">${formatted_date}</span>
     </span>
     </li>`;
